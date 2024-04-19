@@ -16,7 +16,10 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-
+from todolist.views import redicert_view, todo, category
 urlpatterns = [
     path('admin/', admin.site.urls),
+    path('', redicert_view, name='todo'),
+    path('todo/', todo, name='todo'),
+    path('category/', category, name='category'),
 ]
