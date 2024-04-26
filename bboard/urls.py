@@ -21,8 +21,8 @@ urlpatterns = [
     path('<int:rubric_id>/', BbByRubricView.as_view(), name='by_rubric'),
     # path('<int:rubric_id>/', cache_page(10)(BbByRubricView.as_view()), name='by_rubric'),
 
-    path('', index, name='index'),
-    # path('', BbIndexView.as_view(), name='index'),
+    # path('', index, name='index'),
+    path('', BbIndexView.as_view(), name='index'),
     path('year/<int:year>/', BbRedirectView.as_view(), name='redirect'),
     path('<int:year>/<int:month>/', BbMonthView.as_view(), name='month'),
 

@@ -22,6 +22,7 @@ from django.views.generic.detail import DetailView
 from django.views.generic.edit import CreateView, UpdateView, DeleteView
 from precise_bbcode.bbcode import get_parser
 
+from bboard.utils import DataMixin
 from .forms import BbForm, RubricBaseFormSet, SearchForm
 from .models import Bb, Rubric
 
@@ -64,7 +65,7 @@ def index(request):
     return response
 
 
-class BbIndexView(ListView):
+class BbIndexView(DataMixin, LoginRequiredMixin,ListView):
 # class BbIndexView(LoginRequiredMixin, ListView):
     model = Bb
     template_name = 'index.html'
@@ -77,12 +78,12 @@ class BbIndexView(ListView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
+        c_def = self.get_extra_context_data(title="Добавление веса")
         if 'counter' in self.request.COOKIES:
             cnt = int(self.request.COOKIES['counter']) + 1
         else:
             cnt = 1
-        return context
-
+        return dict(list(context.items()) + list(c_def.items()))
 
 # class BbIndexView(ArchiveIndexView):
 #     model = Bb
@@ -141,14 +142,17 @@ class BbByRubricView(ListView):
         return context
 
 
-class BbDetailView(DetailView):
+class BbDetailView(DetailView, DataMixin):
     model = Bb
 
     # def get_context_data(self, **kwargs):
     #     context = super().get_context_data(**kwargs)
     #     context['rubrics'] = Rubric.objects.all()
     #     return context
-
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        c_def = self.get_extra_context_data(title="Добавление веса")
+        return dict(list(context.items()) + list(c_def.items()))
 
 def detail(request, pk):
     parser = get_parser()
@@ -157,7 +161,7 @@ def detail(request, pk):
     pass
 
 
-class BbCreateView(CreateView):
+class BbCreateView(DataMixin,LoginRequiredMixin,CreateView):
     template_name = 'create.html'
     form_class = BbForm
     success_url = '/'
@@ -166,9 +170,8 @@ class BbCreateView(CreateView):
         context = super().get_context_data(**kwargs)
         # context['rubrics'] = Rubric.objects.all()
         context['messages'] = ['Ага, ты молодес!']
-
-        return context
-
+        c_def = self.get_extra_context_data(title="Добавление веса")
+        return dict(list(context.items()) + list(c_def.items()))
 
 class BbEditView(UpdateView):
     model = Bb

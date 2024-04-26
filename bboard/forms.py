@@ -55,6 +55,7 @@ class BbForm(forms.ModelForm):
     )
 
     price = forms.DecimalField(label='Цена', decimal_places=2)
+    weight = forms.IntegerField(label='Вес')
     rubric = forms.ModelChoiceField(queryset=Rubric.objects.all(),
                                     label='Рубрика', help_text='Не забудь выбрать рубрику!',
                                     widget=forms.widgets.Select(attrs={'size': 8}))
