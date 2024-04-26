@@ -1,10 +1,75 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-</body>
-</html>
+{% block content %}
+    <div class="columns has-background-black-ter is-centered has-text-white-bis" style="min-height: 101vh;">
+        <div class="column is-half">
+            <h1 class="is-size-3 has-text-centered">Список дел</h1>
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="field has-text-centered">
+                    <label for="description" class="label has-text-white-bis">
+                         Введите задачу
+                    </label>
+                    <div class="control">
+                        <input type="text" name="description" id="description" class="input" placeholder="Напишите свою задачу" required>
+                    </div>
+                </div>
+                <div class="columns">
+                    <div class="column">
+                        <label for="category">Категории</label>
+                        <div class="control">
+                            <div class="select">
+                                <select name="category_select" id="category" class="select" required>
+                                    <option class="disabled" value="">
+                                        Выберите категорию задачи
+                                    </option>
+                                    {% for category in categories %}
+                                    <option value="{{ category.name }}" name="{{ category.name }}">
+                                        {{ category.name }}
+                                    </option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="column">
+                        <label for="dueDate">Выберите дату</label>
+                        <input type="date" name="date" id="dueDate" class="input calendar" required>
+                    </div>
+                </div>
+                <div class="column">
+                    <div class="field">
+                        <button type="submit" class="button is-primary" name="Add">
+                            <span class="icon is-small">
+                                <i class="fa fa-plus"></i>
+                            </span>
+                            <span>Добавить задание</span>
+                        </button>
+                           <button type="submit" class="button is-link" name="Delete" formnovalidate="">
+                            <span class="icon is-small">
+                                <i class="fa fa-trash-0"></i>
+                            </span>
+                            <span> Удалить задание</span>
+                        </button>
+                    </div>
+                </div>
+                <div class="list is-hoverable">
+                    {% for todo in todos %}
+                    <div class="list-item">
+                        <label  class="checkbox">
+                            <input type="checkbox" name="checkedbox " class="checkbox" value="{{ todo.id }}">
+                            <span class="complete-">{{ todo.title }}</span>
+                        </label>
+                        <span class="category-{{ todo.category }} has-text-info">
+                            {{ todo.category }}
+                        </span>
+                        <strong class="is-pulled-right">
+                            <i class="fa fa-calendar"></i>{{ todo.created }} - {{ todo.due_time }}
+                        </strong>
+                    </div>
+                    {% endfor %}
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}

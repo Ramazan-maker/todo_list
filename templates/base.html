@@ -5,10 +5,22 @@
     <title></title>
     {% load static %}
     <link rel="shortcut icon" href ="{% static 'favicon.png' %}" type="image/png">
-    <link rel="stylesheet" href="{% 'bulma.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/bulma.min.css' %}">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
 </head>
 <body>
+<div django-app="TaskManager">
+    <nav class = "navbar is-success" role="navigation" aria-label="main navigation">
+        <div class="navbar-menu">
+            <div class="navbar-start">
+                <a href="{% url 'category' %}" class="navber-item">Категории</a>
+                <a href="{% url 'todo' %}" class="navber-item">Список дел</a>
+            </div>
+        </div>
+    </nav>
+    {% block content %}
 
+    {% endblock %}
+</div>
 </body>
 </html>

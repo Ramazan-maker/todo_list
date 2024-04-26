@@ -19,7 +19,7 @@ def todo(request):
             date = str(request.POST['date'])
             category = request.POST['category_select']
             content = title + '--' + date + ' ' + category
-            todo = TodoList(title=title, content=content, due_date=date, category=Category.objects.get(name=category))
+            todo = TodoList(title=title, content=content, due_time=date, category=Category.objects.get(name=category))
             todo.save()
             return redirect('/todo')
 

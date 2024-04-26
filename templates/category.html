@@ -1,10 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base.html" %}
 
-</body>
-</html>
+{% block content %}
+    <div class="columns has-background-link is-centered has-text-white-bis" style="min-height: 101vh;">
+        <div class="column is-half">
+            <h1 class="is-size-4 has-text-centered">Категории</h1>
+            <form action="" method="post">
+                {% csrf_token %}
+                <div class="field has-text-centered">
+                    <label for="description" class="label has-text-white-bis">
+                        Введите категории
+                    </label>
+                    <div class="control">
+                        <input type="text" name="name" id="description" class="input" placeholder="Напишите свои категории(категория задач)" required>
+                    </div>
+                    <div class="field">
+                        <button type="submit" class="button is-primary" name="Add">
+                            <span class="icon is-small">
+                                <i class="fa fa-plus"></i>
+                            </span>
+                            <span>Добавить категорию</span>
+                        </button>
+                           <button type="submit" class="button is-danger" name="Delete" formnovalidate="">
+                            <span class="icon is-small">
+                                <i class="fa fa-trash-0"></i>
+                            </span>
+                            <span> Удалить категорию</span>
+                        </button>
+                    </div>
+                    </div>
+
+                    <div class="list is-hoverable">
+                        {% for category in categories %}
+                        <div class="list-item">
+                            <label class="checkbox">
+                                <input type="checkbox" name="check" class="checkbox" value="{{ category.id }}">
+                            <span class="complete-">{{ category.name }}</span>
+                            </label>
+                        </div>
+                        {% endfor %}
+                    </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
